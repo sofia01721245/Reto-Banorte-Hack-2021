@@ -1,0 +1,117 @@
+#Importación de Libraries
+
+from google.colab import files
+uploaded = files.upload()
+
+import numpy as np
+import pandas as pd
+from sklearn.linear_model import LinearRegression #only importing the linear_model function
+import matplotlib.pyplot as plt
+%matplotlib inline
+from sklearn.metrics import r2_score
+import seaborn as sns
+sns.set()
+
+for fn in uploaded.keys():
+  print('User uploaded file "{name}" with length {length} bytes'.format(name=fn, length=len(uploaded[fn])))
+
+#Lectura de datos
+
+
+variacion_df = pd.read_csv('/content/quincenal_5.csv')
+#presion_df = presion_df.drop(columns="Unnamed: 1")
+#presion_df = presion_df.drop(columns="Unnamed: 2")
+variacion_df
+
+
+
+#Modelo Regresión Lineal
+
+x1 = variacion_df.loc[:,'fecha']
+y1 = variacion_df.loc[:,'variacion']
+
+m, b = np.polyfit(x1, y1, 1)
+print("m =",m)
+print("b =",b)
+
+
+num_obs = 50
+
+noise = np.random.normal(loc=0.0, scale=5.0, size=num_obs)
+
+plt.figure(figsize=(20,7))
+plt.plot(x1, y1, 'o')
+
+
+features = x1.values.reshape(-1, 1)
+target = y1
+
+lr = LinearRegression()
+lr.fit(features, target)
+
+print(lr.intercept_)
+print(lr.coef_)
+
+plt.figure(figsize=(20,7))
+plt.plot(x1, y1, 'o')
+
+x_chart = np.linspace(x1.min(), x1.max(), num=100)
+plt.plot(x_chart, lr.intercept_ + lr.coef_[0]*x_chart)
+plt.title('Grafica de y = -0.0011537753738827213x + 0.8603511519244267')
+
+
+#use the equation to predict
+x_new = np.array([0, 1, 2, 3])
+
+y_prediction = lr.intercept_ + x_new*lr.coef_[0]
+y_prediction
+
+# use model to predict
+lr.predict(x_new.reshape(-1,1))
+
+#Training test regression 
+
+
+train_x = x1[:793]
+train_y = y1[:793]
+
+test_x = x1[793:]
+test_y = y1[793:]
+
+plt.scatter(train_x, train_y)
+plt.show()
+
+plt.scatter(test_x, test_y)
+plt.show()
+
+mymodel = np.poly1d(np.polyfit(train_x, train_y, 4))
+myline = np.linspace(0, 793, 793)
+
+plt.scatter(train_x, train_y)
+plt.plot(myline, mymodel(myline), color = 'red')
+plt.show()
+
+mymodel = np.poly1d(np.polyfit(train_x, train_y, 4))
+myline = np.linspace(0, 793, 793)
+
+plt.scatter(train_x, train_y)
+plt.plot(myline, mymodel(myline), color = 'red')
+plt.show()
+
+r2 = r2_score(train_y, mymodel(train_x))
+print(r2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
