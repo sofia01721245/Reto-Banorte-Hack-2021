@@ -16,5 +16,26 @@
 
 ### Elaboración diagrama de dispersión para analizar la tendencia general de los datos y así comenzar a planear cuál sería el mejor approach
 
-## 
+## Fase 3 - Primer Modelo
+
+### Se hizo prueba con modelo lineal de regresión para observar la calificación de entrada de este
+
+## Fase 4 - Limpieza de Datos
+
+### Observamos que nuestros datos contenían un alto número de “outliers” que afectaban el modelo de regresión, por lo que decidimos suavizarlos utilizando el método de “z score” 
+
+## Fase 5 - Nuevo ajuste del modelo 
+
+### Para conseguir un mejor resultado, decidimos utilizar Training Test para conseguir mejores predicciones de nuestros datos sin tomar en cuenta las anomalías presentadas. 
+
+## Fase 6 - Prueba con otros modelos
+
+### Regresión Ridge
+
+### Árbol de Decisión
+
+### Random Forest
+
+## Fase 7 - Pronósticos y Error
+
 
